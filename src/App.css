@@ -1,6 +1,9 @@
 .App {
   text-align: center;
 }
+img{
+  max-width: 100%;
+}
 .cart-widget{
   margin: 0 16px;
   display: flex;
@@ -17,4 +20,22 @@
 }
 .navbar{
   padding-left: 16px;
+}
+.listitem{
+  background-color: #fefefe;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-items: center;
+  gap: 20px;
+  padding: 16px 56px;
+}
+.itemDetailContainer{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.itemDetail{
+  width: 20%;
 }
