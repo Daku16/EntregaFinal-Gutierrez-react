@@ -1,8 +1,23 @@
 import CartWidget from "./CartWidget";
-import {NavLink} from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
+import { collection, getDocs, getFirestore } from "firebase/firestore"
 import "../App.css"
+import { useEffect, useState } from "react";
 
 const NavBar = () => {
+    const [category, setCategory] = useState([])
+    const db = getFirestore()
+    const categoriesColletion = collection(db, "categories")
+    useEffect(() => {
+        getDocs(categoriesColletion).then((snapshots) => {
+            setCategory(snapshots.docs.map((doc) => {
+                return {
+                    id: doc.id,
+                    ...doc.data()
+                }
+            }))
+        })
+    }, [])
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark ">
             <NavLink className="navbar-brand" to="/">Nombre de la tienda</NavLink>
@@ -11,24 +26,12 @@ const NavBar = () => {
             </button>
             <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav">
-                    <li className="nav-item">
-                        <NavLink className="nav-link" to={`/category/${1}`}>Clothes</NavLink>
-                    </li>
-                    <li className="nav-item">
-                        <NavLink className="nav-link" to={`/category/${2}`}>Electronics</NavLink>
-                    </li>
-                    <li className="nav-item">
-                        <NavLink className="nav-link" to={`/category/${3}`}>Furniture</NavLink>
-                    </li>
-                    <li className="nav-item">
-                        <NavLink className="nav-link" to={`/category/${4}`}>Shoes</NavLink>
-                    </li>
-                    <li className="nav-item">
-                        <NavLink className="nav-link" to={`/category/${5}`}>Others</NavLink>
-                    </li>
+                    {category.map(category => (
+                        <li key={category.id} className="nav-item"><NavLink className="nav-link" to={`/category/${category.id}`}>{category.title}</NavLink></li>
+                    ))}
                 </ul>
             </div>
-            <CartWidget/>
+            <NavLink className="nav-link" to="/cart"><CartWidget /></NavLink>
         </nav>
     )
 }

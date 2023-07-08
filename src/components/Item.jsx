@@ -13,7 +13,7 @@ function Item({ id, title, price, pictureUrl }) {
                     <NavLink to={`/item/${id}`}><Button variant="primary">Ver detalle del producto</Button></NavLink>
                 </Card.Body>
                 <Card.Footer>
-                    <Card.Subtitle>Precio: ${price}</Card.Subtitle>
+                    <Card.Subtitle>Precio: {price}</Card.Subtitle>
                 </Card.Footer>
             </Card>
         </div>

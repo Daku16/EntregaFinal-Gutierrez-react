@@ -1,3 +1,6 @@
+html{
+  min-height: 100vh;
+}
 .App {
   text-align: center;
 }
@@ -30,6 +33,7 @@ img{
   padding: 16px 56px;
 }
 .itemDetailContainer{
+  margin-top: 50px;
   width: 100%;
   height: 100vh;
   display: flex;
@@ -37,5 +41,41 @@ img{
   align-items: center;
 }
 .itemDetail{
-  width: 20%;
+  height: 100vh;
+  width: 50%;
+  margin: 24px 0;
+  display: flex;
+  flex-direction: column;
+}
+.itemDetailDescription{
+  display: flex;
+  flex-direction: row;
+}
+.itemDetailDescription-text{
+  max-width: 40%;
+}
+.contador{
+  margin: 16px 0;
+  border-radius: 16px;
+  border: 1px solid #0d7dc7;
+  width: 60%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.contador button {
+  border-radius: 16px;
+  border: none;
+  background-color: #F7F7F7;
+  color: #0d7dc7;
+}
+.contador p {
+  margin: 0;
+}
+
+.boton-agregar button {
+  width: 60%;
+  border: #0d7dc7 solid 1px;
+  border-radius: 16px;
 }

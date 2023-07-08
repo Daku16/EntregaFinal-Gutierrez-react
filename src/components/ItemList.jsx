@@ -1,37 +1,40 @@
 import Item from "./Item"
 import { useEffect, useState } from "react"
-import {Container} from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
 import { useParams } from "react-router-dom";
-let url = ""
-
+import { getFirestore, collection, getDocs } from "firebase/firestore";
 const ItemList = () => {
-    const params = useParams()
-    if (Object.keys(params).length === 0) {
-        url = `https://api.escuelajs.co/api/v1/products`
-    } else if (Object.keys(params).length !== 0) {
-        url = `https://api.escuelajs.co/api/v1/categories/${params.id}/products`
-    }
     const [items, setItems] = useState([])
+    const db = getFirestore()
+    const params = useParams()
+    const itemsColletion = collection(db, "items")
     useEffect(() => {
-        const fetchItems = () => {
-            setTimeout(() => {
-                fetch(url).then((response) => {
-                    return response.json()
-                }).then((products) => {
-                    setItems(products)
-                })
-                
-            }, 2000);
-        };
-        fetchItems();
-    }, [items]);
+        getDocs(itemsColletion).then((snapshots) => {
+            if (params.id !== undefined) {
+                setItems(snapshots.docs.filter((item) => item.category === params.id).map(item => {
+                    return {
+                        id: item.id,
+                        ...item.data()
+                    }
+                }))
+            }
+            else {
+                setItems(snapshots.docs.map(item => {
+                    return {
+                        id: item.id,
+                        ...item.data()
+                    }
+                }))
+            }
+        })
+    }, [items])
     return (
         <div>
             <h2>Listado de productos</h2>
             <Container className="listitem">
-            {items.map(item => (
-                <Item key={item.id} id={item.id} title={item.title} price={item.price} pictureUrl={item.images[0]}/>
-            ))}
+                {items.map(item => (
+                    <Item key={item.id} id={item.id} title={item.title} price={item.price} pictureUrl={item.picture} />
+                ))}
             </Container>
         </div>
     );
